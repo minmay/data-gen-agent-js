@@ -1,0 +1,107 @@
+selection:
+  numeric: 2
+  string: 2
+  groups: 1
+tags:
+  - name: pu136mod-ni-001
+    type: int
+    fn: return 100 * Math.sin(v)
+  - name: pu136mod-ni-002
+    type: int
+    fn: identity
+  - name: pu136mod-ni-003
+    type: int
+    fn: identity
+  - name: pu136mod-ni-004
+    type: int
+    fn: identity
+  - name: pu136mod-ni-005
+    type: int
+    fn: identity
+  - name: pu136mod-ni-006
+    type: int
+    fn: identity
+  - name: pu136mod-ni-007
+    type: int
+    fn: identity
+  - name: pu136mod-ni-008
+    type: int
+    fn: identity
+  - name: pu136mod-ni-009
+    type: int
+    fn: identity
+  - name: pu136mod-ni-010
+    type: int
+    fn: identity
+  - name: pu136mod-nd-011
+    type: double
+    fn: identity
+  - name: pu136mod-nd-012
+    type: double
+    fn: identity
+  - name: pu136mod-nd-013
+    type: double
+    fn: identity
+  - name: pu136mod-nd-014
+    type: double
+    fn: identity
+  - name: pu136mod-nd-015
+    type: double
+    fn: identity
+  - name: pu136mod-nd-016
+    type: double
+    fn: identity
+  - name: pu136mod-nd-017
+    type: double
+    fn: identity
+  - name: pu136mod-nd-018
+    type: double
+    fn: identity
+  - name: pu136mod-nd-019
+    type: double
+    fn: identity
+  - name: pu136mod-nd-020
+    type: double
+    fn: identity
+  - name: pu136mod-ns-021
+    type: string
+    fn: identity
+  - name: pu136mod-ns-022
+    type: string
+    fn: identity
+  - name: pu136mod-ns-023
+    type: string
+    fn: identity
+  - name: pu136mod-ns-024
+    type: string
+    fn: identity
+  - name: pu136mod-ns-025
+    type: string
+    fn: identity
+  - name: pu136mod-ns-026
+    type: string
+    fn: identity
+  - name: pu136mod-ns-027
+    type: string
+    fn: identity
+  - name: pu136mod-ns-028
+    type: string
+    fn: identity
+  - name: pu136mod-ns-029
+    type: string
+    fn: identity
+  - name: pu136mod-ns-030
+    type: string
+    fn: identity
+
+groups:
+  - ["pu136mod-ni-001", "pu136mod-nd-011", "pu136mod-ns-021"]
+  - ["pu136mod-ni-002", "pu136mod-nd-012", "pu136mod-ns-022"]
+  - ["pu136mod-ni-003", "pu136mod-nd-013", "pu136mod-ns-023"]
+  - ["pu136mod-ni-004", "pu136mod-nd-014", "pu136mod-ns-024"]
+  - ["pu136mod-ni-005", "pu136mod-nd-015", "pu136mod-ns-025"]
+  - ["pu136mod-ni-006", "pu136mod-nd-016", "pu136mod-ns-026"]
+  - ["pu136mod-ni-007", "pu136mod-nd-017", "pu136mod-ns-027"]
+  - ["pu136mod-ni-008", "pu136mod-nd-018", "pu136mod-ns-028"]
+  - ["pu136mod-ni-009", "pu136mod-nd-019", "pu136mod-ns-029"]
+  - ["pu136mod-ni-010", "pu136mod-nd-020", "pu136mod-ns-030"]

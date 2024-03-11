@@ -1,0 +1,117 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: data-gen-agent
+spec:
+  kafka:
+    version: 3.6.1
+    replicas: 3
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+      - name: tls
+        port: 9093
+        type: internal
+        tls: true
+      - name: extlb
+        # documentation at https://strimzi.io/docs/operators/latest/configuring.html#type-GenericKafkaListener-reference
+        # A new loadbalancer service is created for every Kafka broker pod. An additional loadbalancer is created to
+        # serve as a Kafka bootstrap address. Loadbalancers listen to the specified port number
+        port: 9094
+        type: loadbalancer
+        tls: false
+        configuration:
+          loadBalancerSourceRanges:
+            - 255.255.255.252/30
+    config:
+      offsets.topic.replication.factor: 3
+      transaction.state.log.replication.factor: 3
+      transaction.state.log.min.isr: 2
+      default.replication.factor: 3
+      min.insync.replicas: 2
+      inter.broker.protocol.version: "3.6"
+    storage:
+      type: ephemeral
+  zookeeper:
+    replicas: 1
+    resources:
+      requests:
+        memory: 128M
+      limits:
+        memory: 256M
+    storage:
+      type: ephemeral
+#      size: 100M
+#      deleteClaim: false
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-ui
+spec:
+  selector:
+    matchLabels:
+      app: kafka-ui
+  template:
+    metadata:
+      labels:
+        app: kafka-ui
+    spec:
+      containers:
+        - image: provectuslabs/kafka-ui:v0.4.0
+          name: kafka-ui
+          ports:
+            - containerPort: 8080
+          env:
+            - name: KAFKA_CLUSTERS_0_NAME
+              value: "data-gen-agent"
+            - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
+              value: "data-gen-agent-kafka-bootstrap:9092"
+            - name: SERVER_FORWARDHEADERSSTRATEGY
+              value: FRAMEWORK
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-ui-service
+spec:
+  selector:
+    app: kafka-ui
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 32180
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-gen-agent-app
+  labels:
+    app: data-gen-agent-app
+spec:
+  selector:
+    matchLabels:
+      app: data-gen-agent-app
+  template:
+    metadata:
+      labels:
+        app: data-gen-agent-app
+    spec:
+      containers:
+        - image: me.mvillalobos/data-gen-agent:latest
+          imagePullPolicy: Never
+          name: data-gen-gent
+          env:
+            - name: KAFKA_BROKERS
+              value: "data-gen-agent-kafka-bootstrap:9092"
+            - name: LOOP_MS
+              value: "10000"
+            - name: TAGS
+              value: "/opt/data-gen-agent/conf/tags.yaml"
