@@ -1,0 +1,25 @@
+{
+  "name": "data-gen-agent",
+  "version": "1.0.0",
+  "description": "Utility to generate streaming data for Kafka.",
+  "main": "src/app.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "kafka",
+    "streaming"
+  ],
+  "author": "Marco A. Villalobos",
+  "license": "ISC",
+  "dependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "commander": "^12.0.0",
+    "csv": "^6.3.6",
+    "kafkajs": "^2.2.4",
+    "winston": "^3.11.0",
+    "yaml": "^2.3.4"
+  }
+}
