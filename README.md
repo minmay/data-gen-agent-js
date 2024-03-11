@@ -1,3 +1,70 @@
+# Data Gen Agent
+This application is an agent that generates CSV time-series into an Apache Kafka topic. It is handy
+for implementing stream programming applications.
+## Quickstart
+```shell
+npm run start -- -h
+Usage: app [options]
+
+Options:
+  -d, --dry-run                Performs a dry run by not send messages to Kafka. (env: DRY_RUN)
+  -t --tags <string>           Location of tags configuration file. (env: TAGS)
+  --kafka-brokers <string...>  List of Kafka brokers. (default: ["data-gen-agent-kafka-bootstrap:9092"], env: KAFKA_BROKERS)
+  --kafka-client-id <string>   Kafka producer client id. (default: "data-gen-agent", env: KAFKA_CLIENT_ID)
+  --kafka-topic <string>       Kafka topic. (default: "timeseries", env: KAFKA_TOPIC)
+  -l, --loop <int>             Number of milliseconds to wait between invocations. (default: 30000 miliseconds, env: LOOP_MS)
+  -h, --help                   Displays help information
+```
+
+The tags.yaml file defines which tags to stream to kafka.
+The sample contents below are annotated.
+```yaml
+selection:
+  numeric: 2                        # Select two numeric tags. Use type string or double.
+  string: 2                         # Select two string tags. Use type string.
+  groups: 1                         # select one group tag.
+tags:
+  - name: pu136mod-ni-001           # Name of the tag
+    type: int                       # Tag type. Use int, double, or string.
+    fn: return 100 * Math.sin(v)    # Provide a custom function or identity.
+  - name: pu136mod-ni-002
+    type: int
+    fn: identity
+  - name: pu136mod-ni-003
+    type: int
+    fn: identity
+  - name: pu136mod-ni-004
+    type: int
+    fn: identity
+  - name: pu136mod-ns-021
+    type: string
+    fn: identity
+  - name: pu136mod-ns-022
+    type: string
+    fn: identity
+  - name: pu136mod-ns-023
+    type: string
+    fn: identity
+  - name: pu136mod-ns-024
+    type: string
+    fn: identity
+groups:
+  - ["pu136mod-ni-001", "pu136mod-ns-021"]    # Group tags by name
+  - ["pu136mod-ni-002", "pu136mod-ns-022"]
+  - ["pu136mod-ni-003", "pu136mod-ns-023"]
+  - ["pu136mod-ni-004", "pu136mod-ns-024"]
+```
+
+Notice that tags can support custom functions written in JavaScript.
+Take a look at the tag definition with the name ` pu136mod-ni-001` and its function defined as
+expression `return 100 * Math.sin(v)`.  It only supports expressions with the variable `v`.
+
+It is internally implemented with a Function object. Below is a snippet of the source code.
+Thus, this supports whatever JavaScript supports. For now, `return <expression>` expressions are sufficient.
+```javascript
+const fn = new Function("v", tag.fn);
+return fn(value);
+```
 
 ## Design Decisions
 
