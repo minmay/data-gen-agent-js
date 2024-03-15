@@ -19,7 +19,13 @@ class DataProducer {
         await this.producer.send({
             topic: this.topic,
             messages: [
-                { value: message }
+                {
+                    value: message,
+                    headers: {
+                        "Content-Type": "text/csv",
+                        "X-Control-Stream-Type": "data"
+                    }
+                }
             ],
         })
     }
