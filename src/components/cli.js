@@ -8,7 +8,7 @@ function parse() {
         .addOption(new Option('-t --tags <string>', 'Location of tags configuration file.').env('TAGS'))
         .addOption(new Option('--kafka-brokers <string...>', 'List of Kafka brokers.').default(['data-gen-agent-kafka-bootstrap:9092']).env('KAFKA_BROKERS'))
         .addOption(new Option('--kafka-client-id <string>', 'Kafka producer client id.').default('data-gen-agent').env('KAFKA_CLIENT_ID'))
-        .addOption(new Option('--kafka-topic <string>', 'Kafka topic.').default('timeseries').env('KAFKA_TOPIC'))
+        .addOption(new Option('--kafka-topic <string>', 'Kafka topic.').default('time-series').env('KAFKA_TOPIC'))
         .addOption(new Option('-l, --loop <int>', 'Number of milliseconds to wait between invocations.').default(30000, '30000 miliseconds').env('LOOP_MS'));
 
     program.parse();
